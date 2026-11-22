@@ -1,0 +1,3 @@
+Coloca aquí tu canción en formato MP3 y nómbrala exactamente musica.mp3.
+La página la reproduce desde: music/musica.mp3
+La música comienza cuando el invitado presiona el botón ♫, por las restricciones de reproducción automática del navegador.

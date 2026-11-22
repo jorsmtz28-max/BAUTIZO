@@ -1,0 +1,871 @@
+/* =====================================
+   1. VARIABLES Y CONFIGURACIÓN GENERAL
+===================================== */
+
+:root {
+  --fondo: #170d35;
+  --rosa: #ff5bc8;
+  --lila: #b99aff;
+  --celeste: #68e7ff;
+  --blanco: #fff8ff;
+
+  --sombra-rosa: 0 0 20px #ff5bc877;
+  --sombra-celeste: 0 0 20px #68e7ff77;
+  --radio: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 75px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  color: var(--blanco);
+  background:
+    radial-gradient(circle at 15% 20%, #742b8d66, transparent 30%),
+    radial-gradient(circle at 85% 60%, #164d8266, transparent 35%),
+    var(--fondo);
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* =====================================
+   2. FONDO DE ESTRELLAS 3D
+===================================== */
+
+.cielo-estrellas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.estrella {
+  position: absolute;
+  width: var(--tamano);
+  height: var(--tamano);
+
+  background: linear-gradient(
+    135deg,
+    #fff,
+    var(--celeste) 45%,
+    var(--rosa)
+  );
+
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 95%,
+    50% 72%,
+    21% 95%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+
+  filter: drop-shadow(0 0 5px var(--celeste))
+          drop-shadow(0 0 9px var(--rosa));
+
+  opacity: .8;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+
+  animation:
+    girar var(--duracion) linear infinite,
+    flotar var(--flotacion) ease-in-out infinite alternate,
+    brillar var(--brillo) ease-in-out infinite alternate;
+
+  animation-delay: var(--retraso);
+}
+
+@keyframes girar {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes flotar {
+  from {
+    translate: 0 -10px;
+  }
+  to {
+    translate: 0 15px;
+  }
+}
+
+@keyframes brillar {
+  from {
+    opacity: .3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Grupos de estrellas */
+
+.grupo-estrellas {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  animation: orbitar 12s linear infinite;
+}
+
+.grupo-estrellas::before,
+.grupo-estrellas::after {
+  content: "✦";
+  position: absolute;
+  color: var(--celeste);
+  text-shadow:
+    0 0 8px var(--celeste),
+    0 0 18px var(--rosa);
+  animation: destello 2s ease-in-out infinite alternate;
+}
+
+.grupo-estrellas::before {
+  top: 5px;
+  left: 5px;
+  font-size: 28px;
+}
+
+.grupo-estrellas::after {
+  top: 35px;
+  left: 40px;
+  color: var(--rosa);
+  font-size: 18px;
+}
+
+@keyframes orbitar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes destello {
+  from {
+    opacity: .3;
+    scale: .7;
+  }
+  to {
+    opacity: 1;
+    scale: 1.2;
+  }
+}
+
+/* =====================================
+   3. NAVEGACIÓN
+===================================== */
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+
+  padding: 15px 10px;
+
+  background: #170d35ed;
+  border-bottom: 1px solid #ffffff22;
+  backdrop-filter: blur(10px);
+}
+
+nav a {
+  color: var(--blanco);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color .25s, text-shadow .25s;
+}
+
+nav a:hover {
+  color: var(--celeste);
+  text-shadow: var(--sombra-celeste);
+}
+
+/* =====================================
+   4. ESTRUCTURA DE SECCIONES
+===================================== */
+
+main {
+  position: relative;
+  z-index: 2;
+}
+
+section {
+  position: relative;
+  padding: 70px 20px;
+}
+
+.inicio {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(#170d3588, #170d35bb),
+    radial-gradient(ellipse at center, #8b39b8, #170d35 68%);
+}
+
+.estrellitas {
+  color: var(--celeste);
+  font-size: 25px;
+  letter-spacing: 12px;
+  text-shadow: 0 0 14px var(--celeste);
+  animation: brilloGeneral 2s infinite alternate;
+}
+
+@keyframes brilloGeneral {
+  to {
+    opacity: 1;
+    text-shadow: 0 0 25px var(--celeste);
+  }
+}
+
+/* =====================================
+   5. TÍTULOS 3D
+===================================== */
+
+.sobre-titulo {
+  margin: 18px 0 8px;
+  color: var(--celeste);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: var(--blanco);
+  font-size: clamp(48px, 12vw, 92px);
+  line-height: 1;
+  font-weight: 900;
+
+  text-shadow:
+    1px 1px 0 #ff5bc8,
+    2px 2px 0 #df35ad,
+    3px 3px 0 #a72b91,
+    4px 4px 0 #77236e,
+    5px 5px 0 #501750,
+    7px 7px 10px #0009,
+    0 0 20px var(--rosa),
+    0 0 40px var(--lila);
+
+  animation: flotarTitulo 3s ease-in-out infinite;
+}
+
+h2 {
+  margin: 0 0 24px;
+  color: #ffb6ed;
+  font-size: clamp(28px, 6vw, 44px);
+  font-weight: 900;
+
+  text-shadow:
+    1px 1px 0 #ff5bc8,
+    2px 2px 0 #d32d9e,
+    3px 3px 0 #8c236e,
+    5px 5px 0 #48134c,
+    0 0 15px var(--rosa),
+    0 0 25px var(--lila);
+}
+
+h3 {
+  color: var(--celeste);
+  font-weight: 900;
+  text-shadow:
+    1px 1px 0 #68e7ff,
+    2px 2px 0 #348ba9,
+    3px 3px 0 #164d82,
+    0 0 15px var(--celeste);
+}
+
+@keyframes flotarTitulo {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* =====================================
+   6. NOMBRE Y FOTO
+===================================== */
+
+.nombre-inicio {
+  margin-top: 18px;
+  color: var(--rosa);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-shadow:
+    1px 1px 0 #ff5bc8,
+    2px 2px 0 #bd2996,
+    3px 3px 0 #771c69,
+    0 0 15px var(--rosa);
+}
+
+.foto-marco {
+  width: min(78vw, 330px);
+  aspect-ratio: 1;
+  margin: 30px auto 20px;
+  padding: 8px;
+
+  overflow: hidden;
+  border: 3px solid var(--rosa);
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    var(--rosa),
+    var(--celeste),
+    var(--lila)
+  );
+
+  box-shadow:
+    0 0 25px #ff5bc899,
+    0 0 55px #8c4dff66;
+
+  animation: fotoBrillante 3s ease-in-out infinite alternate;
+}
+
+.foto-marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+@keyframes fotoBrillante {
+  to {
+    box-shadow:
+      0 0 35px var(--celeste),
+      0 0 65px var(--rosa);
+  }
+}
+
+/* =====================================
+   7. FECHA Y HORA
+===================================== */
+
+.fecha-hora {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.dato {
+  min-width: 145px;
+  padding: 14px 20px;
+  border: 1px solid #ffffff44;
+  border-radius: 16px;
+  background: #ffffff12;
+  box-shadow: 0 0 15px #b99aff33;
+}
+
+.dato strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--celeste);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+/* =====================================
+   8. TARJETAS
+===================================== */
+
+.tarjeta {
+  position: relative;
+  overflow: hidden;
+
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: clamp(25px, 6vw, 50px);
+
+  border: 1px solid #ffffff30;
+  border-radius: var(--radio);
+
+  background: #ffffff0c;
+
+  box-shadow:
+    0 0 35px #8d43b822,
+    inset 0 0 25px #ffffff08;
+
+  backdrop-filter: blur(5px);
+  transition: box-shadow .3s;
+}
+
+.tarjeta::before {
+  content: "✦";
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: var(--celeste);
+  font-size: 25px;
+  text-shadow: var(--sombra-celeste);
+  animation: destelloTarjeta 2s infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes destelloTarjeta {
+  from {
+    opacity: .3;
+    transform: rotate(0deg) scale(.7);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(180deg) scale(1.2);
+  }
+}
+
+/* =====================================
+   9. TEXTOS
+===================================== */
+
+p {
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.nombre {
+  color: var(--rosa);
+  font-size: 23px;
+  font-weight: 900;
+  text-shadow:
+    1px 1px 0 #ff5bc8,
+    2px 2px 0 #bd2996,
+    3px 3px 0 #771c69,
+    0 0 15px var(--rosa);
+}
+
+.frase {
+  color: var(--lila);
+  font-size: clamp(20px, 5vw, 27px);
+  font-weight: bold;
+}
+
+.separador {
+  color: var(--celeste);
+  font-size: 25px;
+  letter-spacing: 10px;
+  text-shadow: var(--sombra-celeste);
+}
+
+.ubicacion {
+  color: var(--blanco);
+  font-size: 19px;
+  line-height: 1.8;
+}
+
+/* =====================================
+   10. BOTONES
+===================================== */
+
+.boton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 15px 25px;
+
+  color: var(--fondo);
+  border-radius: 30px;
+
+  background: linear-gradient(
+    90deg,
+    var(--celeste),
+    var(--lila),
+    var(--rosa)
+  );
+
+  box-shadow: 0 0 22px #b99aff77;
+
+  font-weight: 900;
+  text-decoration: none;
+
+  transition: transform .2s, box-shadow .2s;
+}
+
+.boton:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 0 30px #ff5bc899;
+}
+
+/* =====================================
+   11. DESPEDIDA Y PIE
+===================================== */
+
+.final {
+  min-height: 45vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, transparent, #692a8055);
+}
+
+.final p {
+  color: var(--celeste);
+  font-size: clamp(23px, 6vw, 34px);
+  font-weight: 900;
+
+  text-shadow:
+    2px 2px 0 #348ba9,
+    4px 4px 0 #164d82,
+    0 0 20px var(--celeste);
+}
+
+footer {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  color: #d9c9e8;
+  background: var(--fondo);
+  font-size: 12px;
+}
+
+/* =====================================
+   12. DISEÑO PARA CELULARES
+===================================== */
+
+@media (max-width: 600px) {
+  nav {
+    gap: 12px;
+    padding: 14px 6px;
+  }
+
+  nav a {
+    font-size: 10px;
+  }
+
+  section {
+    padding: 55px 16px;
+  }
+
+  .foto-marco {
+    width: min(75vw, 300px);
+  }
+
+  .estrella {
+    filter: drop-shadow(0 0 5px var(--celeste));
+  }
+
+  .tarjeta {
+    padding: 27px 20px;
+  }
+}
+
+/* =====================================
+   13. MOVIMIENTO REDUCIDO
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =====================================================
+   ACTUALIZACIÓN K-POP PARTY: FONDO, ESTRELLAS Y MÚSICA
+===================================================== */
+
+/* La imagen de fondo solo se aplica a la portada. */
+.inicio {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  padding-top: clamp(54px, 8vh, 90px);
+  padding-bottom: 65px;
+  background:
+    linear-gradient(180deg, rgba(18, 5, 43, .48), rgba(16, 7, 42, .72)),
+    url("../images/fondo-kpop.png") center center / cover no-repeat !important;
+}
+.inicio > *:not(.decoraciones-laterales) {
+  position: relative;
+  z-index: 3;
+}
+
+/* Foto un poco más abajo y encuadrada hacia el rostro. */
+.foto-marco {
+  margin-top: clamp(42px, 6vh, 68px);
+  width: min(76vw, 330px);
+  aspect-ratio: 1;
+}
+.foto-marco img {
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+/* Título y estrellas geométricas a ambos lados de PARTY. */
+.titulo-fiesta {
+  position: relative;
+  width: min(100%, 620px);
+  margin: 0 auto;
+  isolation: isolate;
+}
+.titulo-fiesta h1 {
+  position: relative;
+  z-index: 2;
+}
+.estrella-titulo {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  width: var(--star-size, 48px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  clip-path: polygon(50% 0%, 61% 34%, 98% 35%, 68% 57%, 79% 96%, 50% 73%, 21% 96%, 32% 57%, 2% 35%, 39% 34%);
+  background: linear-gradient(145deg, #fff 0%, #a9f4ff 24%, #b86aff 58%, #ff62d0 100%);
+  filter: drop-shadow(0 0 8px #68e7ff) drop-shadow(0 0 18px #ff5bc8);
+  animation: estrellaTituloFlota 3.2s ease-in-out infinite alternate,
+             estrellaTituloBrilla 1.8s ease-in-out infinite alternate;
+}
+.estrella-titulo::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  clip-path: inherit;
+  background: linear-gradient(145deg, #f7caff, #59217e 76%);
+  transform: scale(.66);
+}
+.estrella-titulo.grande { --star-size: clamp(36px, 6vw, 66px); }
+.estrella-titulo.chica { --star-size: clamp(19px, 3vw, 31px); }
+.estrella-titulo.izquierda.grande { left: 2%; top: 56%; }
+.estrella-titulo.izquierda.chica { left: 12%; top: 18%; animation-delay: -.8s, -.4s; }
+.estrella-titulo.derecha.grande { right: 2%; top: 56%; animation-delay: -1.1s, -.5s; }
+.estrella-titulo.derecha.chica { right: 12%; top: 18%; animation-delay: -1.7s, -.9s; }
+@keyframes estrellaTituloFlota {
+  from { transform: translateY(5px) rotate(-12deg) scale(.94); }
+  to { transform: translateY(-12px) rotate(12deg) scale(1.08); }
+}
+@keyframes estrellaTituloBrilla {
+  from { opacity: .55; filter: drop-shadow(0 0 4px #68e7ff); }
+  to { opacity: 1; filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 24px #ff5bc8); }
+}
+
+/* Decoraciones estrelladas repartidas por cada sección. */
+.decorada-estrellas {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.decorada-estrellas > .tarjeta,
+.decorada-estrellas > p,
+.decorada-estrellas > h1,
+.decorada-estrellas > .fecha-hora,
+.decorada-estrellas > .foto-marco,
+.decorada-estrellas > .nombre-inicio,
+.decorada-estrellas > .sobre-titulo,
+.decorada-estrellas > .estrellitas,
+.decorada-estrellas > .titulo-fiesta {
+  position: relative;
+  z-index: 2;
+}
+.decoraciones-laterales {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.decoracion-estrella {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  display: block;
+  width: var(--tam, 28px);
+  aspect-ratio: 1;
+  background: linear-gradient(145deg, #fff, var(--color, #b99aff) 48%, #7134a8);
+  clip-path: polygon(50% 0%, 61% 34%, 98% 35%, 68% 57%, 79% 96%, 50% 73%, 21% 96%, 32% 57%, 2% 35%, 39% 34%);
+  filter: drop-shadow(0 0 5px var(--color, #b99aff)) drop-shadow(0 0 12px #ff5bc8);
+  opacity: .78;
+  animation: decoracionBrillo var(--dur, 2.8s) ease-in-out infinite alternate,
+             decoracionMovimiento var(--flotar, 4.5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.decoracion-estrella.contorno {
+  background: #f6dfff;
+}
+.decoracion-estrella.contorno::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  clip-path: inherit;
+  background: #24103d;
+  transform: scale(.84);
+}
+.decoracion-estrella.cruz {
+  clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+}
+@keyframes decoracionBrillo {
+  from { opacity: .3; }
+  to { opacity: 1; filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 22px #ff5bc8); }
+}
+@keyframes decoracionMovimiento {
+  0%, 100% { translate: 0 0; rotate: -8deg; }
+  50% { translate: 0 -11px; rotate: 9deg; }
+}
+
+/* Intro de sobre y control musical. */
+.intro-sobre {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  color: #fff8ff;
+  text-align: center;
+  cursor: pointer;
+  background:
+    linear-gradient(145deg, rgba(26, 7, 52, .88), rgba(13, 6, 35, .96)),
+    url("../images/fondo-kpop.png") center / cover;
+  transition: opacity .8s ease, visibility .8s ease;
+}
+.intro-sobre.cerrado { opacity: 0; visibility: hidden; pointer-events: none; }
+.sobre-instruccion { text-align: center; }
+.sobre-instruccion p { margin: 8px 0; letter-spacing: 2px; }
+.sobre-nombre { color: #ff9be2; font-size: 22px; font-weight: 900; letter-spacing: 5px; text-shadow: 0 0 16px #ff5bc8; }
+.mini-destello { color: #68e7ff; font-size: 26px; letter-spacing: 12px; text-shadow: 0 0 15px #68e7ff; }
+.sobre {
+  position: relative;
+  width: min(78vw, 330px);
+  height: 205px;
+  filter: drop-shadow(0 18px 25px #0009);
+  perspective: 900px;
+}
+.sobre-cuerpo {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #f3c9ff;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #d8a5ff, #8239b7 72%, #42136e);
+  box-shadow: inset 0 0 22px #fff7;
+}
+.sobre-cuerpo::before, .sobre-cuerpo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(35deg, transparent 49.5%, #f8e8ff 50%, transparent 50.8%);
+}
+.sobre-cuerpo::after { transform: scaleX(-1); }
+.sobre-solapa {
+  position: absolute;
+  z-index: 2;
+  top: 0; left: 0;
+  width: 100%; height: 58%;
+  transform-origin: top center;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(160deg, #f4dfff, #a95bdb 80%);
+  transition: transform .75s ease;
+}
+.sello {
+  position: absolute;
+  z-index: 3;
+  left: 50%; top: 53%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  color: white;
+  font-size: 25px;
+  background: linear-gradient(145deg, #ff5bc8, #7132a8);
+  border: 2px solid #f4d8ff;
+  box-shadow: 0 0 18px #ff7cdb;
+  transition: opacity .3s, transform .3s;
+}
+.intro-sobre.abriendo .sobre-solapa { transform: rotateX(180deg); }
+.intro-sobre.abriendo .sello { opacity: 0; transform: translate(-50%, -50%) scale(.4); }
+.intro-sobre.cerrado { opacity: 0; visibility: hidden; }
+.toca-abrir { color: #bff7ff; font-size: 13px; letter-spacing: 2px; animation: pulsoAbrir 1.4s infinite alternate; }
+@keyframes pulsoAbrir { to { opacity: .55; transform: translateY(4px); } }
+.control-musica {
+  position: fixed;
+  z-index: 30;
+  right: 18px;
+  bottom: 18px;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #f3caff;
+  border-radius: 50%;
+  color: white;
+  background: linear-gradient(145deg, #b74ee1, #43146d);
+  box-shadow: 0 0 18px #ff5bc899;
+  font-size: 25px;
+  cursor: pointer;
+}
+.control-musica.reproduciendo { animation: pulsoMusica 1.5s infinite alternate; }
+@keyframes pulsoMusica { to { box-shadow: 0 0 28px #68e7ff; transform: scale(1.06); } }
+
+@media (max-width: 600px) {
+  .inicio { min-height: 100svh; background-position: center center !important; }
+  .titulo-fiesta { width: 100%; }
+  .estrella-titulo.izquierda.grande { left: 0; }
+  .estrella-titulo.derecha.grande { right: 0; }
+  .estrella-titulo.izquierda.chica { left: 8%; }
+  .estrella-titulo.derecha.chica { right: 8%; }
+  .foto-marco { margin-top: 42px; width: min(74vw, 300px); }
+  .decoracion-estrella { opacity: .55; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .estrella-titulo, .decoracion-estrella, .toca-abrir, .control-musica { animation: none !important; }
+}
+
+
+/* Control de música de fondo */
+.boton-musica {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border: 2px solid #ff55cf;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, #8e24aa, #24104d);
+  box-shadow: 0 0 12px #ff55cf, 0 0 22px #35dfff;
+  font-size: 25px;
+  cursor: pointer;
+}
+.boton-musica.activo { animation: pulsoMusicaKpop 1.3s ease-in-out infinite alternate; }
+@keyframes pulsoMusicaKpop {
+  to { transform: scale(1.08); box-shadow: 0 0 20px #ff55cf, 0 0 32px #35dfff; }
+}
